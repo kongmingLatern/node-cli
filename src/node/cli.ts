@@ -10,8 +10,13 @@
  * 
  */
 import { cac } from 'cac'
+import { resolve } from 'path'
 
-const version = require('../package.json').version
+const packagePath = resolve(process.cwd(), './package.json')
+
+console.log('pachage', packagePath)
+
+const version = require(packagePath).version
 
 const cli = cac('node-cli').version(version).help()
 
