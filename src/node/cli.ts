@@ -4,17 +4,12 @@ const version = require('../package.json').version
 
 const cli = cac('node-cli').version(version).help()
 
-cli
-	.command('[root]', 'start dev server')
-	.alias('dev')
-	.action(async (root: string) => {
-		console.log('dev', root)
-	})
+// NOTE: analyze 用于分析从当前目录 package.json 开始递归查找到的全量依赖关系(包名 & 版本号)，分析完成后自动打开网页，并渲染依赖关系图；
 
 cli
-	.command('build [root]', 'build for production')
-	.action(async (root: string) => {
-		console.log('build', root)
+	.command('analyze', 'analyze dependencies')
+	.action(async () => {
+		console.log('analyze')
 	})
 
 cli.parse()
