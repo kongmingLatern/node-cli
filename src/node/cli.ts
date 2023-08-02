@@ -11,10 +11,9 @@
  */
 import { cac } from 'cac'
 import { resolve } from 'path'
+import { OpenWindow } from '../../scripts/cli'
 
 const packagePath = resolve(process.cwd(), './package.json')
-
-console.log('pachage', packagePath)
 
 const version = require(packagePath).version
 
@@ -29,12 +28,16 @@ cli
 		default: null,
 	})
 	.action(async ({ depth, json }) => {
-		// node-cli analyze --depth=2 --json 2
+		// node-cli analyze --depth=3 --json 2
 		if (depth) {
 			console.log('depth', depth) // Output: depth 3
 		}
 		if (json) {
 			console.log('json', json) // Output: json 2
+		}
+		if (!depth && !json) {
+			await OpenWindow('https://www.baidu.com')
+			console.log('1', 1)
 		}
 	})
 
