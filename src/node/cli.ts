@@ -34,3 +34,5 @@ cli
 	})
 
 cli.parse()
+
+export { cli }
