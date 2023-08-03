@@ -11,9 +11,8 @@
  *
  */
 import { cac } from "cac";
-import { OpenWindow } from "../../scripts/cli";
+import { OpenWindow, getPackagePaths } from "../../scripts/cli";
 import { resolve } from "path";
-import * as fs from "fs";
 
 const packagePath = resolve(process.cwd(), "./package.json");
 
@@ -34,7 +33,6 @@ cli
     if (depth) {
       const paths = getPackagePaths(process.cwd());
       console.log("paths", paths);
-
       console.log("depth", depth); // Output: depth 3
     }
     if (json) {
@@ -45,22 +43,6 @@ cli
       console.log("1", 1);
     }
   });
-const getPackagePaths = (dir: string, filelist: string[] = []) => {
-  const files = fs.readdirSync(dir);
-
-  files.forEach((file) => {
-    const filepath = dir + "/" + file;
-    const stats = fs.statSync(filepath);
-
-    if (stats.isDirectory()) {
-      filelist = getPackagePaths(filepath, filelist);
-    } else if (file === "package.json") {
-      filelist.push(filepath);
-    }
-  });
-
-  return filelist;
-};
 
 cli.parse();
 
