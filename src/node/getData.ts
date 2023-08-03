@@ -1,8 +1,5 @@
 import fse from "fs-extra";
 import { v4 as uuidv4 } from "uuid";
-interface objType {
-  [key in String]: string;
-}
 
 //读取package.json
 export function readPackage(paths: string) {
