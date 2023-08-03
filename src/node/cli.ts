@@ -26,7 +26,7 @@ cli
 		default: null,
 	})
 	.action(async ({ depth, json }) => {
-		// node-cli analyze --depth=2 --json 2
+		// node-cli analyze --depth=3 --json 2
 		if (depth) {
 			   const paths= getPackagePaths(process.cwd())   
 
@@ -34,6 +34,10 @@ cli
 		}
 		if (json) {
 			console.log('json', json) // Output: json 2
+		}
+		if (!depth && !json) {
+			await OpenWindow('https://www.baidu.com')
+			console.log('1', 1)
 		}
 	})
 const getPackagePaths = (dir:any, filelist = []) => {
