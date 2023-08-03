@@ -10,7 +10,8 @@
     "start": "tsc -w ./src/node/cli.ts --outDir ./dist && node ./dist/node/cli.js",
     "test": "vitest",
     "test:run": "vitest run",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commitlint": "commitlint --edit"
   },
   "bin": {
     "node-cli": "bin/cli.js"
