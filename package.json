@@ -8,7 +8,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "tsc -w ./src/node/cli.ts --outDir ./dist && node ./dist/node/cli.js",
-    "test": "vitest"
+    "test": "vitest",
+    "test:run": "vitest run",
+    "prepare": "husky install"
   },
   "bin": {
     "node-cli": "bin/cli.js"
@@ -28,6 +30,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "opn": "^6.0.0",
     "path": "^0.12.7",
