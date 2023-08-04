@@ -11,9 +11,8 @@
  *
  */
 import { cac } from "cac";
-import { OpenWindow } from "@scripts/cli";
+import { OpenWindow, readPackage, getModules } from "../../scripts/cli";
 import { resolve } from "path";
-import { readPackage, getModules } from "../../scripts/cli/read";
 
 const packagePath = resolve(process.cwd(), "./package.json");
 
