@@ -46,8 +46,5 @@ export function getModules(arr: Array<any>) {
     arrs = [...map.values()];
   });
 
-  // for (let i = 0; i < 20; i++) {
-  //   console.log(arrs[i]);
-  // }
   return [...arr1, ...arrs];
 }
