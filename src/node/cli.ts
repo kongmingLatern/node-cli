@@ -29,6 +29,24 @@ cli
     default: null,
   })
   .action(async ({ depth, json }) => {
+    // node-cli analyze --depth=2 --json 2
+    if (depth) {
+      const arrPackage = readPackage(process.cwd());
+      const arrPackages = getModules(arrPackage);
+      console.log(arrPackages);
+
+      console.log("depth", depth); // Output: depth 3
+    }
+    if (json) {
+      console.log("json", json); // Output: json 2
+  .command("analyze", "analyze dependencies")
+  .option("--depth <depth>", "Limit depth", {
+    default: null,
+  })
+  .option("--json <json>", "Limit depth", {
+    default: null,
+  })
+  .action(async ({ depth, json }) => {
     // node-cli analyze --depth=3 --json 2
     if (depth) {
       const paths = getPackagePaths(process.cwd());
@@ -43,6 +61,9 @@ cli
       console.log("1", 1);
     }
   });
+cli.parse();
+
+export { cli };
 
 cli.parse();
 
