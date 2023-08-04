@@ -1,17 +1,53 @@
-import * as fs from "fs";
-export const getPackagePaths = (dir: string, filelist: string[] = []) => {
-  const files = fs.readdirSync(dir);
+import fse from "fs-extra";
+import { v4 as uuidv4 } from "uuid";
 
-  files.forEach((file) => {
-    const filepath = dir + "/" + file;
-    const stats = fs.statSync(filepath);
-
-    if (stats.isDirectory()) {
-      filelist = getPackagePaths(filepath, filelist);
-    } else if (file === "package.json") {
-      filelist.push(filepath);
+//读取package.json
+export function readPackage(paths: string) {
+  // 获取依赖包
+  const arr: Array<any> = [];
+  const packageData = fse.readJSONSync(paths + "/package.json");
+  const dependencies = packageData.dependencies || {};
+  const devDependencies = packageData.devDependencies || {};
+  const allPackages = { ...dependencies, ...devDependencies };
+  Object.keys(allPackages).map((item) => {
+    if (!new RegExp("@").test(item)) {
+      arr.push({
+        name: item,
+        version: allPackages[item],
+        id: uuidv4(),
+        pid: [],
+      });
     }
   });
+  return arr;
+}
 
-  return filelist;
-};
+export function getModules(arr: Array<any>) {
+  const arr1: Array<any> = [];
+  let arrs: Array<any> = [];
+  const hasObj: any = {};
+  arr.forEach((item) => {
+    arrs = [
+      ...arrs,
+      ...readPackage(process.cwd() + "/node_modules/" + item.name),
+    ];
+    //使用map ,进行过滤
+    const map = new Map();
+    for (const it of arrs) {
+      const filterkey = it.name + it.version;
+      if (hasObj[filterkey] === undefined) {
+        hasObj[filterkey] = it.id;
+        item.pid.push(it.id);
+        map.set(filterkey, it);
+      } else {
+        item.pid.push(hasObj[filterkey]);
+      }
+    }
+    arrs = [...map.values()];
+  });
+
+  // for (let i = 0; i < 20; i++) {
+  //   console.log(arrs[i]);
+  // }
+  return [...arr1, ...arrs];
+}
