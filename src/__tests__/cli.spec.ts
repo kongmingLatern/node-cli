@@ -1,4 +1,4 @@
-import { getModules, readPackage } from "@scripts/cli";
+import { getModules, analysisPackage } from "@scripts/cli";
 import { cli } from "../node/cli";
 
 vi.mock("../node/cli");
@@ -18,7 +18,7 @@ describe("cli command", () => {
 
 describe.skip("should return all modules", () => {
   it("should return all modules", () => {
-    const arrPackage = readPackage(process.cwd());
+    const arrPackage = analysisPackage(process.cwd());
     const arrPackages = getModules(arrPackage);
     expect(arrPackages).toMatchInlineSnapshot(`
       [
