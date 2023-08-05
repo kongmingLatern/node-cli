@@ -1,16 +1,17 @@
+import { ObjType, PackageType } from "../../src/types";
 import * as fse from "fs-extra";
 import { v4 as uuidv4 } from "uuid";
 
 //读取package.json
 export function readPackage(paths: string) {
   // 获取依赖包
-  const arr: Array<any> = [];
+  const arr: Array<PackageType> = [];
   const packageData = fse.readJSONSync(paths + "/package.json");
   const dependencies = packageData.dependencies || {};
   const devDependencies = packageData.devDependencies || {};
   const allPackages = { ...dependencies, ...devDependencies };
   Object.keys(allPackages).map((item) => {
-    if (!new RegExp("@").test(item)) {
+    if (!new RegExp("@types/").test(item)) {
       arr.push({
         name: item,
         version: allPackages[item],
@@ -22,10 +23,9 @@ export function readPackage(paths: string) {
   return arr;
 }
 
-export function getModules(arr: Array<any>) {
-  const arr1: Array<any> = [];
-  let arrs: Array<any> = [];
-  const hasObj: any = {};
+export function getModules(arr: Array<PackageType>) {
+  let arrs: Array<PackageType> = [];
+  const hasObj: ObjType = {};
   arr.forEach((item) => {
     arrs = [
       ...arrs,
@@ -40,11 +40,13 @@ export function getModules(arr: Array<any>) {
         item.pid.push(it.id);
         map.set(filterkey, it);
       } else {
-        item.pid.push(hasObj[filterkey]);
+        item.pid.indexOf(hasObj[filterkey]) === -1
+          ? item.pid.push(hasObj[filterkey])
+          : "";
       }
     }
     arrs = [...map.values()];
   });
 
-  return [...arr1, ...arrs];
+  return [...arr, ...arrs];
 }
