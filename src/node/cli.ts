@@ -32,7 +32,7 @@ cli
     // node-cli analyze --depth=3 --json 2
     if (depth) {
       const arrPackages = getModuleJSON(analysisPackage(process.cwd()));
-      console.log(arrPackages);
+      console.log(arrPackages, arrPackages.size);
     }
     if (json) {
       console.log("json", json); // Output: json 2

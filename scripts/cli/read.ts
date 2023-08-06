@@ -1,6 +1,6 @@
 import * as fse from "fs-extra";
 import { handleDependency } from "./handle";
-import { Dependency, getKey, hasKey } from "../utils";
+import { Dependency } from "../utils";
 
 function readPackageJson(paths: string) {
   return fse.readJSONSync(paths + "/package.json");
@@ -13,27 +13,15 @@ export function analysisPackage(paths: string) {
   return getDependencies();
 }
 
-export function getModuleJSON(dependencies: Array<Dependency>) {
-  let result: Array<Dependency> = [];
+export function getModuleJSON(
+  dependencies: Array<Dependency>
+): Set<Dependency> {
+  const dependency: Array<Dependency> = [];
   const target: Record<string, string> = {};
   const localModulesPath = process.cwd() + "/node_modules/";
   dependencies.forEach((item) => {
-    const map = new Map();
-    result.push(...analysisPackage(localModulesPath + item.name));
-    for (const it of result) {
-      const filterkey = getKey(it);
-      if (!hasKey(target, filterkey)) {
-        target[filterkey] = it.id;
-        item.pid.push(it.id);
-        map.set(filterkey, it);
-      } else {
-        item.pid.indexOf(target[filterkey]) === -1
-          ? item.pid.push(target[filterkey])
-          : "";
-      }
-    }
-    result = [...map.values()];
+    item.addDependency(dependency, localModulesPath);
+    item.setDependencyPid(dependency, target);
   });
-
-  return [...dependencies, ...result];
+  return new Set([...dependencies, ...dependency]);
 }

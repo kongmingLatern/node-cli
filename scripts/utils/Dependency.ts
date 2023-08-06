@@ -1,12 +1,49 @@
+import { getKey, hasKey } from ".";
+import { analysisPackage } from "../cli";
+
 export class Dependency {
   name: string;
   version: string;
   pid: string[];
   id: string;
+
   constructor(name: string, version: string, pid: string[], id: string) {
     this.name = name;
     this.version = version;
     this.pid = pid;
     this.id = id;
   }
+
+  addDependency(dependency: Dependency[], path: string) {
+    dependency.push(...analysisPackage(path + this.name));
+  }
+
+  addDependencyPid(id: string) {
+    this.pid.push(id);
+  }
+
+  setDependencyPid(dependency: Dependency[], target: Record<string, string>) {
+    const map = new Map();
+    for (const it of dependency) {
+      const filterkey = getKey(it);
+      if (!hasKey(target, filterkey)) {
+        target[filterkey] = it.id;
+        map.set(filterkey, it);
+        this.addDependencyPid(it.id);
+      } else {
+        if (!hasTargetDependency(this, target, filterkey)) {
+          this.addDependencyPid(target[filterkey]);
+        }
+      }
+    }
+    dependency.push(...map.values());
+  }
+}
+
+function hasTargetDependency(
+  item: Dependency,
+  target: Record<string, string>,
+  filterkey: string
+) {
+  return item.pid.indexOf(target[filterkey]) === -1;
 }
