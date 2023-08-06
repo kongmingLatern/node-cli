@@ -22,9 +22,9 @@ export class Dependency {
     this.pid.push(id);
   }
 
-  setDependencyPid(dependency: Dependency[], target: Record<string, string>) {
+  setDependencyPid(dependencies: Dependency[], target: Record<string, string>) {
     const map = new Map();
-    for (const it of dependency) {
+    for (const it of dependencies) {
       const filterkey = getKey(it);
       if (!hasKey(target, filterkey)) {
         target[filterkey] = it.id;
@@ -36,7 +36,7 @@ export class Dependency {
         }
       }
     }
-    dependency.push(...map.values());
+    dependencies.push(...map.values());
   }
 }
 
