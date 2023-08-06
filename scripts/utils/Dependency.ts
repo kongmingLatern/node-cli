@@ -31,19 +31,15 @@ export class Dependency {
         map.set(filterkey, it);
         this.addDependencyPid(it.id);
       } else {
-        if (!hasTargetDependency(this, target, filterkey)) {
+        if (!this.hasTargetDependency(target, filterkey)) {
           this.addDependencyPid(target[filterkey]);
         }
       }
     }
     dependencies.push(...map.values());
   }
-}
 
-function hasTargetDependency(
-  item: Dependency,
-  target: Record<string, string>,
-  filterkey: string
-) {
-  return item.pid.indexOf(target[filterkey]) === -1;
+  hasTargetDependency(target: Record<string, string>, filterkey: string) {
+    return this.pid.indexOf(target[filterkey]) === -1;
+  }
 }
