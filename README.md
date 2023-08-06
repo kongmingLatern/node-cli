@@ -5,9 +5,13 @@
 ```bash
    npm install / yarn / pnpm install(`recommand`)
 
+   pnpm run start // to generate dist folder
+
    npm link // link node-cli to global
 
    node-cli --depth=[depth] --json=[file-path] // use node-cli
+
+   node-cli --depth=2 --json=2
 ```
 
 ## How to use?
