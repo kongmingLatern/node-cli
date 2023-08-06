@@ -1,7 +1,7 @@
 export interface PackageType {
   name: string;
   version: string;
-  pid: Array<string>;
+  pid: string[];
   id: string;
 }
 export interface ObjType {

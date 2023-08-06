@@ -1,39 +1,16 @@
-import { ObjType, PackageType } from "../../src/types";
 import * as fse from "fs-extra";
-import { v4 as uuidv4 } from "uuid";
+import { PackageType, ObjType } from "../utils/types";
+import { handleDependency } from "./handle";
+
 function readPackageJson(paths: string) {
   return fse.readJSONSync(paths + "/package.json");
-}
-
-function findAllDependencies(allPackages: { [x: string]: string }) {
-  return Object.keys(allPackages)
-    .map((item) => {
-      if (!isTSDeclareDependency(item)) {
-        return {
-          name: item,
-          version: allPackages[item],
-          id: uuidv4(),
-          pid: [],
-        };
-      }
-    })
-    .filter((b) => Boolean(b)) as Array<PackageType>;
-}
-
-function combineAllDependency(packageData: Record<string, string>) {
-  const { dependencies = {}, devDependencies = {} } = packageData;
-  return { ...dependencies, ...devDependencies };
 }
 
 // 解析 package.json
 export function analysisPackage(paths: string) {
   const packageData = readPackageJson(paths);
-  const allPackages = combineAllDependency(packageData);
-  return findAllDependencies(allPackages);
-}
-
-function isTSDeclareDependency(item: string) {
-  return new RegExp("@types/").test(item);
+  const { getDependencies } = handleDependency(packageData);
+  return getDependencies();
 }
 
 export function getModuleJSON(arr: Array<PackageType>) {
