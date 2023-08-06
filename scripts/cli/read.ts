@@ -20,19 +20,15 @@ function findAllDependencies(allPackages: { [x: string]: string }) {
     .filter((b) => Boolean(b)) as Array<PackageType>;
 }
 
-function combineAllDependency(
-  dependencies: Record<string, string>,
-  devDependencies: Record<string, string>
-) {
+function combineAllDependency(packageData: Record<string, string>) {
+  const { dependencies = {}, devDependencies = {} } = packageData;
   return { ...dependencies, ...devDependencies };
 }
 
 // 解析 package.json
 export function analysisPackage(paths: string) {
-  // 获取依赖包
   const packageData = readPackageJson(paths);
-  const { dependencies = {}, devDependencies = {} } = packageData;
-  const allPackages = combineAllDependency(dependencies, devDependencies);
+  const allPackages = combineAllDependency(packageData);
   return findAllDependencies(allPackages);
 }
 
@@ -44,16 +40,12 @@ export function getModuleJSON(arr: Array<PackageType>) {
   let arrs: Array<PackageType> = [];
   const hasObj: ObjType = {};
   arr.forEach((item) => {
-    arrs = [
-      ...arrs,
-      ...analysisPackage(process.cwd() + "/node_modules/" + item.name),
-    ].filter((i) => Boolean(i));
+    arrs.push(...analysisPackage(process.cwd() + "/node_modules/" + item.name));
     //使用map ,进行过滤
     const map = new Map();
-    console.log("arr", arrs);
     for (const it of arrs) {
       const filterkey = it.name + it.version;
-      if (hasObj[filterkey] === undefined) {
+      if (!hasObj[filterkey]) {
         hasObj[filterkey] = it.id;
         item.pid.push(it.id);
         map.set(filterkey, it);
