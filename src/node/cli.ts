@@ -11,7 +11,11 @@
  *
  */
 import { cac } from "cac";
-import { OpenWindow, analysisPackage, getModuleJSON } from "../../scripts/cli";
+import {
+  OpenWindow,
+  readPackageDependency,
+  getModuleJSON,
+} from "../../scripts/cli";
 import { resolve } from "path";
 
 const packagePath = resolve(process.cwd(), "./package.json");
@@ -31,7 +35,7 @@ cli
   .action(async ({ depth, json }) => {
     // node-cli analyze --depth=3 --json 2
     if (depth) {
-      const arrPackages = getModuleJSON(analysisPackage(process.cwd()));
+      const arrPackages = getModuleJSON(readPackageDependency(process.cwd()));
       console.log(arrPackages, arrPackages.size);
     }
     if (json) {

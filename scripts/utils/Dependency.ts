@@ -1,5 +1,5 @@
 import { getKey, hasKey } from ".";
-import { analysisPackage } from "../cli";
+import { readPackageDependency } from "../cli";
 
 export class Dependency {
   name: string;
@@ -15,7 +15,7 @@ export class Dependency {
   }
 
   addDependency(dependency: Dependency[], path: string) {
-    dependency.push(...analysisPackage(path + this.name));
+    dependency.push(...readPackageDependency(path + this.name));
   }
 
   addDependencyPid(id: string) {

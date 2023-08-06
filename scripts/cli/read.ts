@@ -7,7 +7,7 @@ function readPackageJson(paths: string) {
 }
 
 // 解析 package.json
-export function analysisPackage(paths: string) {
+export function readPackageDependency(paths: string) {
   const packageData = readPackageJson(paths);
   const { getDependencies } = handleDependency(packageData);
   return getDependencies();

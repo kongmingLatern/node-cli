@@ -1,4 +1,4 @@
-import { getModuleJSON, analysisPackage } from "@scripts/cli";
+import { getModuleJSON, readPackageDependency } from "@scripts/cli";
 import { cli } from "../node/cli";
 
 vi.mock("../node/cli");
@@ -18,7 +18,7 @@ describe("cli command", () => {
 
 describe("should return all modules's size", () => {
   it("should return all modules", () => {
-    const arrPackages = getModuleJSON(analysisPackage(process.cwd()));
+    const arrPackages = getModuleJSON(readPackageDependency(process.cwd()));
     expect(arrPackages.size).toBe(402);
   });
 });
