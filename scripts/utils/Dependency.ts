@@ -25,21 +25,21 @@ export class Dependency {
   setDependencyPid(dependencies: Dependency[], target: Record<string, string>) {
     const map = new Map();
     for (const it of dependencies) {
-      const filterkey = getKey(it);
-      if (!hasKey(target, filterkey)) {
-        target[filterkey] = it.id;
-        map.set(filterkey, it);
+      const key = getKey(it);
+      if (!hasKey(target, key)) {
+        target[key] = it.id;
+        map.set(key, it);
         this.addDependencyPid(it.id);
       } else {
-        if (!this.hasTargetDependency(target, filterkey)) {
-          this.addDependencyPid(target[filterkey]);
+        if (!this.hasTargetDependency(target, key)) {
+          this.addDependencyPid(target[key]);
         }
       }
     }
     dependencies.push(...map.values());
   }
 
-  hasTargetDependency(target: Record<string, string>, filterkey: string) {
-    return this.pid.indexOf(target[filterkey]) === -1;
+  hasTargetDependency(target: Record<string, string>, key: string) {
+    return this.pid.indexOf(target[key]) === -1;
   }
 }
