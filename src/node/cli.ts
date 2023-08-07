@@ -17,6 +17,8 @@ import {
   getModuleJSON,
 } from "../../scripts/cli";
 import { resolve } from "path";
+import * as http from "http";
+import { createDevServer } from "./dev";
 
 const packagePath = resolve(process.cwd(), "./package.json");
 
@@ -42,8 +44,9 @@ cli
       console.log("json", json); // Output: json 2
     }
     if (!depth && !json) {
-      await OpenWindow("https://www.baidu.com");
-      console.log("1", 1);
+      const server = await createDevServer();
+      await server.listen();
+      server.printUrls();
     }
   });
 
