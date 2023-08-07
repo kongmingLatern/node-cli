@@ -1,5 +1,5 @@
 import { getKey, hasKey } from ".";
-import { getPackageDependency } from "../cli";
+import { getPackageDependency, readPackageJson } from "../cli";
 
 type DependencyType =
   | "dependencies"
@@ -29,7 +29,7 @@ export class Dependency {
   }
 
   getDependenciesByPath(path: string) {
-    return getPackageDependency(path + this.name);
+    return getPackageDependency(readPackageJson(path + this.name));
   }
 
   addDependencyCid(id: string) {
@@ -43,7 +43,7 @@ export class Dependency {
       if (!hasKey(target, key)) {
         target[key] = it.id;
         map.set(key, it);
-        this.addDependencyCid(it.id);
+        this.addDependencyCid(key);
       } else {
         if (!this.hasTargetDependency(target, key)) {
           this.addDependencyCid(target[key]);

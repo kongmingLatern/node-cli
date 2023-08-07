@@ -19,7 +19,7 @@ function handleType(
   type: "dependencies" | "devDependencies"
 ) {
   return Object.keys({ ...dependencies }).map((item) => {
-    if (!isTSDeclareDependency(item)) {
+    if (!isTSDeclareDependency(item) || !isSpecialDependency(item)) {
       return new Dependency(item, dependencies[item], [], uuidv4(), type);
     }
   });
@@ -27,4 +27,8 @@ function handleType(
 
 function isTSDeclareDependency(item: string) {
   return new RegExp("@types/").test(item);
+}
+
+function isSpecialDependency(item: string) {
+  return new RegExp(/^./g).test(item);
 }
