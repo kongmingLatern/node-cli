@@ -1,16 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { Dependency } from "../utils/Dependency";
 export function handleDependency(packageData: Record<string, string>) {
-  function mergeDependencies() {
-    const { dependencies = {}, devDependencies = {} } = packageData;
-    return { ...dependencies, ...devDependencies } as Record<string, string>;
-  }
   function getDependencies() {
-    const allPackages = mergeDependencies();
     const { dependencies = {}, devDependencies = {} } = packageData;
     return [
-      ...handleType(dependencies, allPackages, "dependencies"),
-      ...handleType(devDependencies, allPackages, "devDependencies"),
+      ...handleType(dependencies, "dependencies"),
+      ...handleType(devDependencies, "devDependencies"),
     ].filter(Boolean) as Array<Dependency>;
   }
 
@@ -21,12 +16,11 @@ export function handleDependency(packageData: Record<string, string>) {
 
 function handleType(
   dependencies: Record<string, string>,
-  allPackages: Record<string, string>,
   type: "dependencies" | "devDependencies"
 ) {
   return Object.keys({ ...dependencies }).map((item) => {
     if (!isTSDeclareDependency(item)) {
-      return new Dependency(item, allPackages[item], [], uuidv4(), type);
+      return new Dependency(item, dependencies[item], [], uuidv4(), type);
     }
   });
 }
