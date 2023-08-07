@@ -1,27 +1,25 @@
 import { getKey, hasKey } from ".";
 import { readPackageDependency } from "../cli";
 
+type DependencyType =
+  | "dependencies"
+  | "devDependencies"
+  | "peerDependencies"
+  | "optionalDependencies";
+
 export class Dependency {
   name: string;
   version: string;
   cid: string[];
   id: string;
-  type?:
-    | "dependencies"
-    | "devDependencies"
-    | "peerDependencies"
-    | "optionalDependencies";
+  type?: DependencyType;
 
   constructor(
     name: string,
     version: string,
     cid: string[],
     id: string,
-    type?:
-      | "dependencies"
-      | "devDependencies"
-      | "peerDependencies"
-      | "optionalDependencies"
+    type?: DependencyType
   ) {
     this.name = name;
     this.version = version;
