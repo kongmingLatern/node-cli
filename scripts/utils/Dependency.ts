@@ -14,8 +14,8 @@ export class Dependency {
     this.id = id;
   }
 
-  addDependency(dependency: Dependency[], path: string) {
-    dependency.push(...readPackageDependency(path + this.name));
+  getDependenciesByPath(path: string) {
+    return readPackageDependency(path + this.name);
   }
 
   addDependencyPid(id: string) {

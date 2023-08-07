@@ -14,14 +14,14 @@ export function readPackageDependency(paths: string) {
 }
 
 export function getModuleJSON(
-  dependencies: Array<Dependency>
+  packageDependencies: Array<Dependency>
 ): Set<Dependency> {
-  const dependency: Array<Dependency> = [];
+  const dependencies: Array<Dependency> = [];
   const target: Record<string, string> = {};
   const localModulesPath = process.cwd() + "/node_modules/";
-  dependencies.forEach((item) => {
-    item.addDependency(dependency, localModulesPath);
-    item.setDependencyPid(dependency, target);
+  packageDependencies.forEach((item) => {
+    dependencies.push(...item.getDependenciesByPath(localModulesPath));
+    item.setDependencyPid(dependencies, target);
   });
-  return new Set([...dependencies, ...dependency]);
+  return new Set([...packageDependencies, ...dependencies]);
 }
