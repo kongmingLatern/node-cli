@@ -7,18 +7,28 @@ export function handleDependency(packageData: Record<string, string>) {
   }
   function getDependencies() {
     const allPackages = mergeDependencies();
-    return Object.keys(allPackages)
-      .map((item) => {
-        if (!isTSDeclareDependency(item)) {
-          return new Dependency(item, allPackages[item], [], uuidv4());
-        }
-      })
-      .filter((b) => Boolean(b)) as Array<Dependency>;
+    const { dependencies = {}, devDependencies = {} } = packageData;
+    return [
+      ...handleType(dependencies, allPackages, "dependencies"),
+      ...handleType(devDependencies, allPackages, "devDependencies"),
+    ].filter(Boolean) as Array<Dependency>;
   }
 
   return {
     getDependencies,
   };
+}
+
+function handleType(
+  dependencies: Record<string, string>,
+  allPackages: Record<string, string>,
+  type: "dependencies" | "devDependencies"
+) {
+  return Object.keys({ ...dependencies }).map((item) => {
+    if (!isTSDeclareDependency(item)) {
+      return new Dependency(item, allPackages[item], [], uuidv4(), type);
+    }
+  });
 }
 
 function isTSDeclareDependency(item: string) {

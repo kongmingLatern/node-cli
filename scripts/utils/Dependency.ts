@@ -6,12 +6,28 @@ export class Dependency {
   version: string;
   cid: string[];
   id: string;
+  type?:
+    | "dependencies"
+    | "devDependencies"
+    | "peerDependencies"
+    | "optionalDependencies";
 
-  constructor(name: string, version: string, cid: string[], id: string) {
+  constructor(
+    name: string,
+    version: string,
+    cid: string[],
+    id: string,
+    type?:
+      | "dependencies"
+      | "devDependencies"
+      | "peerDependencies"
+      | "optionalDependencies"
+  ) {
     this.name = name;
     this.version = version;
     this.cid = cid;
     this.id = id;
+    this.type = type;
   }
 
   getDependenciesByPath(path: string) {
