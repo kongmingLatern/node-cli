@@ -21,7 +21,7 @@ export function getModuleJSON(
   const localModulesPath = process.cwd() + "/node_modules/";
   packageDependencies.forEach((item) => {
     dependencies.push(...item.getDependenciesByPath(localModulesPath));
-    item.setDependencyPid(dependencies, target);
+    item.setDependencyCid(dependencies, target);
   });
   return new Set([...packageDependencies, ...dependencies]);
 }

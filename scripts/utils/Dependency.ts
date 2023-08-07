@@ -4,13 +4,13 @@ import { readPackageDependency } from "../cli";
 export class Dependency {
   name: string;
   version: string;
-  pid: string[];
+  cid: string[];
   id: string;
 
-  constructor(name: string, version: string, pid: string[], id: string) {
+  constructor(name: string, version: string, cid: string[], id: string) {
     this.name = name;
     this.version = version;
-    this.pid = pid;
+    this.cid = cid;
     this.id = id;
   }
 
@@ -18,21 +18,21 @@ export class Dependency {
     return readPackageDependency(path + this.name);
   }
 
-  addDependencyPid(id: string) {
-    this.pid.push(id);
+  addDependencyCid(id: string) {
+    this.cid.push(id);
   }
 
-  setDependencyPid(dependencies: Dependency[], target: Record<string, string>) {
+  setDependencyCid(dependencies: Dependency[], target: Record<string, string>) {
     const map = new Map();
     for (const it of dependencies) {
       const key = getKey(it);
       if (!hasKey(target, key)) {
         target[key] = it.id;
         map.set(key, it);
-        this.addDependencyPid(it.id);
+        this.addDependencyCid(it.id);
       } else {
         if (!this.hasTargetDependency(target, key)) {
-          this.addDependencyPid(target[key]);
+          this.addDependencyCid(target[key]);
         }
       }
     }
@@ -40,6 +40,6 @@ export class Dependency {
   }
 
   hasTargetDependency(target: Record<string, string>, key: string) {
-    return this.pid.indexOf(target[key]) === -1;
+    return this.cid.indexOf(target[key]) === -1;
   }
 }
