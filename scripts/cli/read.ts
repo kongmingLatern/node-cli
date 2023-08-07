@@ -1,9 +1,9 @@
-import * as fse from "fs-extra";
+import * as fs from "fs-extra";
 import { handleDependency } from "./handle";
 import { Dependency } from "../utils";
 
 function readPackageJson(paths: string) {
-  return fse.readJSONSync(paths + "/package.json");
+  return fs.readJSONSync(paths + "/package.json");
 }
 
 // 解析 package.json

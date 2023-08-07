@@ -19,6 +19,7 @@ describe("cli command", () => {
 describe("should return all modules's size", () => {
   it("should return all modules", () => {
     const arrPackages = getModuleJSON(readPackageDependency(process.cwd()));
+    // expect(arrPackages).toMatchSnapshot();
     expect(arrPackages.size).toBe(461);
   });
 });

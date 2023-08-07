@@ -11,13 +11,8 @@
  *
  */
 import { cac } from "cac";
-import {
-  OpenWindow,
-  readPackageDependency,
-  getModuleJSON,
-} from "../../scripts/cli";
+import { readPackageDependency, getModuleJSON } from "../../scripts/cli";
 import { resolve } from "path";
-import * as http from "http";
 import { createDevServer } from "./dev";
 
 const packagePath = resolve(process.cwd(), "./package.json");
