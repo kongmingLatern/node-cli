@@ -1,5 +1,5 @@
 import { getKey, hasKey } from ".";
-import { readPackageDependency } from "../cli";
+import { getPackageDependency } from "../cli";
 
 type DependencyType =
   | "dependencies"
@@ -29,7 +29,7 @@ export class Dependency {
   }
 
   getDependenciesByPath(path: string) {
-    return readPackageDependency(path + this.name);
+    return getPackageDependency(path + this.name);
   }
 
   addDependencyCid(id: string) {
