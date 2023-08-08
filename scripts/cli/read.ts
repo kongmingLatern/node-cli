@@ -1,6 +1,6 @@
 import * as fs from "fs-extra";
 import * as path from "path";
-import { handleDependency } from "./handle";
+import { handleDependency } from "./handleDependency";
 import { Dependency } from "../utils";
 
 export function readPackageJson(paths: string) {
