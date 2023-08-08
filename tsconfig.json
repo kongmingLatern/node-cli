@@ -27,6 +27,6 @@
       "@scripts/*": ["scripts/*"]
     }
   },
-  "include": ["src", "scripts/cli/read.ts"],
+  "include": ["src", "scripts/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
