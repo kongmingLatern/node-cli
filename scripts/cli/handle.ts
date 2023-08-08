@@ -4,8 +4,8 @@ export function handleDependency(packageData: Record<string, string>) {
   function getDependencies() {
     const { dependencies = {}, devDependencies = {} } = packageData;
     return [
-      ...handleType(dependencies, "dependencies"),
-      ...handleType(devDependencies, "devDependencies"),
+      ...initDependency(dependencies, "dependencies"),
+      ...initDependency(devDependencies, "devDependencies"),
     ].filter(Boolean) as Array<Dependency>;
   }
 
@@ -14,7 +14,7 @@ export function handleDependency(packageData: Record<string, string>) {
   };
 }
 
-function handleType(
+function initDependency(
   dependencies: Record<string, string>,
   type: "dependencies" | "devDependencies"
 ) {
