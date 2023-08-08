@@ -32,9 +32,9 @@ describe("should return all modules's size", () => {
   });
 });
 
-describe.skip("should return all Dependency", () => {
+describe("should return all Dependency", () => {
   it("should return", () => {
-    const result = readPackageJsonFiles(process.cwd() + "/node_modules/");
+    const result = readPackageJsonFiles(process.cwd());
     expect(result).toMatchSnapshot();
   });
 });

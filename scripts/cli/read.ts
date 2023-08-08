@@ -28,7 +28,6 @@ export function getModuleJSON(
   const target: Record<string, string> = {};
   const localModulesPath = path || process.cwd() + "/node_modules/";
   packageDependencies.forEach((item) => {
-    console.log("item", item);
     dependencies.push(...item.getDependenciesByPath(localModulesPath));
     item.setDependencyCid(dependencies, target);
   });
@@ -38,7 +37,7 @@ const result: Dependency[] = [];
 export function readPackageJsonFiles(directory: string) {
   const files = fs
     .readdirSync(directory)
-    .filter((i) => !i.startsWith(".") && !i.startsWith("@types"));
+    .filter((i) => !isEntryModule(i) && !isPluginModule(i));
 
   for (const file of files) {
     const filePath = path.join(directory, file);
@@ -53,6 +52,7 @@ export function readPackageJsonFiles(directory: string) {
       try {
         const packageJsonContent = fs.readJSONSync(filePath, "utf-8");
         const dependencies = getPackageDependency(packageJsonContent, filePath);
+
         result.push(...dependencies);
       } catch (error) {
         return;
@@ -60,4 +60,11 @@ export function readPackageJsonFiles(directory: string) {
     }
   }
   return new Set(result);
+}
+function isEntryModule(i: string) {
+  return i.startsWith(".");
+}
+
+function isPluginModule(i: string): unknown {
+  return i.startsWith("@");
 }

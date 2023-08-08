@@ -32,8 +32,8 @@ cli
   .action(async ({ depth, json }) => {
     // node-cli analyze --depth=3 --json 2
     if (depth) {
-      const res = readPackageJsonFiles(process.cwd() + "/node_modules/");
-      console.log(res, res?.length);
+      const res = readPackageJsonFiles(process.cwd());
+      console.log(res, res?.size);
     }
     if (json) {
       console.log("json", json); // Output: json 2
