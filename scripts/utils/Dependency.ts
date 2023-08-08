@@ -12,6 +12,7 @@ export class Dependency {
   version: string;
   cid: string[];
   id: string;
+  path?: string;
   type?: DependencyType;
 
   constructor(
@@ -19,12 +20,14 @@ export class Dependency {
     version: string,
     cid: string[],
     id: string,
+    path?: string,
     type?: DependencyType
   ) {
     this.name = name;
     this.version = version;
     this.cid = cid;
     this.id = id;
+    this.path = path;
     this.type = type;
   }
 

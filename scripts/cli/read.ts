@@ -1,17 +1,19 @@
 import * as fs from "fs-extra";
+import * as path from "path";
 import { handleDependency } from "./handle";
 import { Dependency } from "../utils";
-import * as path from "path";
 
 export function readPackageJson(paths: string) {
   return fs.readJSONSync(paths + "/package.json");
 }
 
 // 解析 package.json
-export function getPackageDependency(packageData: Record<string, string>) {
+export function getPackageDependency(
+  packageData: Record<string, string>,
+  filePath?: string
+) {
   try {
-    // const packageData = readPackageJson(paths);
-    const { getDependencies } = handleDependency(packageData);
+    const { getDependencies } = handleDependency(packageData, filePath);
     return getDependencies();
   } catch (e) {
     // 如果没有找到文件,说明可能是本地磁盘已经有,存放在 .pnpm 下
@@ -34,27 +36,28 @@ export function getModuleJSON(
 }
 const result: Dependency[] = [];
 export function readPackageJsonFiles(directory: string) {
-  const files = fs.readdirSync(directory);
+  const files = fs
+    .readdirSync(directory)
+    .filter((i) => !i.startsWith(".") && !i.startsWith("@types"));
 
   for (const file of files) {
     const filePath = path.join(directory, file);
 
     if (fs.statSync(filePath).isDirectory()) {
       // 如果是文件夹，则递归进入
+      // console.log("path", filePath);
+
       readPackageJsonFiles(filePath);
     } else if (file === "package.json") {
       // 如果是 package.json 文件，则读取内容
       try {
         const packageJsonContent = fs.readJSONSync(filePath, "utf-8");
-        const dependencies = getPackageDependency(packageJsonContent);
+        const dependencies = getPackageDependency(packageJsonContent, filePath);
         result.push(...dependencies);
       } catch (error) {
         return;
       }
     }
   }
-  return result;
+  return new Set(result);
 }
-
-// 开始遍历
-// readPackageJsonFiles(process.cwd() + "/node_modules/");
