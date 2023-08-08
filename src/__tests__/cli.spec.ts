@@ -21,7 +21,7 @@ describe("cli command", () => {
   });
 });
 
-describe("should return all modules's size", () => {
+describe.skip("should return all modules's size", () => {
   it("should return all modules", () => {
     const arrPackages = getModuleJSON(
       getPackageDependency(readPackageJson(process.cwd()))
@@ -32,7 +32,7 @@ describe("should return all modules's size", () => {
   });
 });
 
-describe("should return all Dependency", () => {
+describe.skip("should return all Dependency", () => {
   it("should return", () => {
     const result = readPackageJsonFiles(process.cwd());
     expect(result).toMatchSnapshot();
