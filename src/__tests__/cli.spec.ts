@@ -2,6 +2,7 @@ import {
   getModuleJSON,
   getPackageDependency,
   readPackageJson,
+  readPackageJsonFiles,
 } from "@scripts/cli";
 import { cli } from "../node/cli";
 
@@ -28,5 +29,12 @@ describe("should return all modules's size", () => {
     // expect(arrPackages).toMatchSnapshot();
     expect(arrPackages.size).toBe(461);
     // expect(arrPackages.size).toBe(903);
+  });
+});
+
+describe.skip("should return all Dependency", () => {
+  it("should return", () => {
+    const result = readPackageJsonFiles(process.cwd() + "/node_modules/");
+    expect(result).toMatchSnapshot();
   });
 });

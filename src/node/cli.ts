@@ -11,11 +11,7 @@
  *
  */
 import { cac } from "cac";
-import {
-  getPackageDependency,
-  getModuleJSON,
-  readPackageJson,
-} from "../../scripts/cli";
+import { readPackageJsonFiles } from "../../scripts/cli";
 import { resolve } from "path";
 import { createDevServer } from "./dev";
 
@@ -36,10 +32,8 @@ cli
   .action(async ({ depth, json }) => {
     // node-cli analyze --depth=3 --json 2
     if (depth) {
-      const arrPackages = getModuleJSON(
-        getPackageDependency(readPackageJson(process.cwd()))
-      );
-      console.log(arrPackages, arrPackages.size);
+      const res = readPackageJsonFiles(process.cwd() + "/node_modules/");
+      console.log(res, res?.length);
     }
     if (json) {
       console.log("json", json); // Output: json 2

@@ -26,12 +26,14 @@ export function getModuleJSON(
   const target: Record<string, string> = {};
   const localModulesPath = path || process.cwd() + "/node_modules/";
   packageDependencies.forEach((item) => {
+    console.log("item", item);
     dependencies.push(...item.getDependenciesByPath(localModulesPath));
     item.setDependencyCid(dependencies, target);
   });
   return new Set([...packageDependencies, ...dependencies]);
 }
-function readPackageJsonFiles(directory: string) {
+const result: Dependency[] = [];
+export function readPackageJsonFiles(directory: string) {
   const files = fs.readdirSync(directory);
 
   for (const file of files) {
@@ -43,15 +45,15 @@ function readPackageJsonFiles(directory: string) {
     } else if (file === "package.json") {
       // 如果是 package.json 文件，则读取内容
       try {
-        const packageJsonContent = fs.readFileSync(filePath, "utf-8");
-        const packageJson = JSON.parse(packageJsonContent);
-        console.log(`Found package.json in ${filePath}:`, packageJson.name);
-        // return getModuleJSON(getPackageDependency(process.cwd(), )
+        const packageJsonContent = fs.readJSONSync(filePath, "utf-8");
+        const dependencies = getPackageDependency(packageJsonContent);
+        result.push(...dependencies);
       } catch (error) {
-        console.error(`Error reading ${filePath}:`, error);
+        return;
       }
     }
   }
+  return result;
 }
 
 // 开始遍历
