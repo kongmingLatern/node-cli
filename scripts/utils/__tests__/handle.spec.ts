@@ -15,11 +15,11 @@ describe("it should handle json", () => {
     const result: DependencyType[] = [
       {
         cid: [],
-        id: "f7b6835d-f82e-43d3-ae57-681025eada14",
+        id: "1ba3f730-efe8-47d5-be67-4d1f90fed52a",
         name: "eslint",
-        path: "/Users/syj/Desktop/project/node-cli/node_modules/axios/package.json",
+        path: "/Users/syj/Desktop/project/node-cli/package.json",
         type: "devDependencies",
-        version: "^8.17.0",
+        version: "^8.45.0",
       },
       {
         cid: [],
@@ -33,14 +33,14 @@ describe("it should handle json", () => {
     expect(handleJSON(result as Dependency[])).toEqual([
       {
         cid: [],
-        id: "f7b6835d-f82e-43d3-ae57-681025eada14",
+        id: "1ba3f730-efe8-47d5-be67-4d1f90fed52a",
         name: "eslint",
-        path: "/Users/syj/Desktop/project/node-cli/node_modules/axios/package.json",
+        path: "/Users/syj/Desktop/project/node-cli/package.json",
         type: "devDependencies",
-        version: "^8.17.0",
+        version: "^8.45.0",
       },
       {
-        cid: ["f7b6835d-f82e-43d3-ae57-681025eada14"],
+        cid: ["1ba3f730-efe8-47d5-be67-4d1f90fed52a"],
         id: "4046c0c3-634b-495c-9d89-b64e12e92153",
         name: "@eslint-community/eslint-utils",
         path: "/Users/syj/Desktop/project/node-cli/node_modules/eslint/package.json",

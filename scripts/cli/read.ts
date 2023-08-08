@@ -33,6 +33,7 @@ export function getModuleJSON(
   });
   return new Set([...packageDependencies, ...dependencies]);
 }
+
 const result: Dependency[] = [];
 export function readPackageJsonFiles(directory: string) {
   const files = fs
@@ -44,15 +45,11 @@ export function readPackageJsonFiles(directory: string) {
 
     if (fs.statSync(filePath).isDirectory()) {
       // 如果是文件夹，则递归进入
-      // console.log("path", filePath);
-
       readPackageJsonFiles(filePath);
     } else if (file === "package.json") {
-      // 如果是 package.json 文件，则读取内容
       try {
         const packageJsonContent = fs.readJSONSync(filePath, "utf-8");
         const dependencies = getPackageDependency(packageJsonContent, filePath);
-
         result.push(...dependencies);
       } catch (error) {
         return;
