@@ -5,6 +5,7 @@ import {
   readPackageJsonFiles,
 } from "@scripts/cli";
 import { cli } from "../node/cli";
+import { handleJSON } from "@scripts/utils";
 
 vi.mock("../node/cli");
 
@@ -32,9 +33,14 @@ describe.skip("should return all modules's size", () => {
   });
 });
 
-describe.skip("should return all Dependency", () => {
-  it("should return", () => {
+describe("should return all Dependency", () => {
+  it.skip("should return", () => {
     const result = readPackageJsonFiles(process.cwd());
+    expect(result).toMatchSnapshot();
+  });
+
+  it("should return", () => {
+    const result = handleJSON(readPackageJsonFiles(process.cwd())!);
     expect(result).toMatchSnapshot();
   });
 });
