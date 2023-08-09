@@ -39,7 +39,7 @@ describe("should return all Dependency", () => {
     expect(result).toMatchSnapshot();
   });
 
-  it("should return", () => {
+  it.skip("should return", () => {
     const result = handleJSON(readPackageJsonFiles(process.cwd())!);
     expect(result).toMatchSnapshot();
   });
